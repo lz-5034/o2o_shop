@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.imooc.o2o.web"/>
+    <mvc:annotation-driven/>
+
+    <!--定义静态资源给默认servlet处理-->
+    <mvc:resources mapping="/static/**" location="/static/"/>
+    <mvc:default-servlet-handler/>
+
+    <!--配置视图转换器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/html/"/>
+        <property name="suffix" value=".html"/>
+    </bean>
+
+    <!--文件上传解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <!--1024 * 1024 * 20 = 20M-->
+        <!--文件上传最大尺寸-->
+        <property name="maxUploadSize" value="20971520"/>
+        <!--最大内存-->
+        <property name="maxInMemorySize" value="20971520"/>
+    </bean>
+    
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <!--检验是否已经登录了商家管理系统的拦截器-->
+        <mvc:interceptor>
+            <mvc:mapping path="/shop_admin/**"/>
+            <bean class="com.imooc.o2o.interceptor.ShopLoginInterceptor"/>
+        </mvc:interceptor>
+        <!--校验是否对该店铺有操作权限的拦截器-->
+        <mvc:interceptor>
+            <mvc:mapping path="/shop_admin/**"/>
+            <!--配置以下路径不拦截：-->
+            <!--shoplist page-->
+            <mvc:exclude-mapping path="/shop_admin/shop_list"/>
+            <mvc:exclude-mapping path="/shop_admin/get_shop_list"/>
+            <!--shopregister page-->
+            <mvc:exclude-mapping path="/shop_admin/shop_init"/>
+            <mvc:exclude-mapping path="/shop_admin/shop_register"/>
+            <mvc:exclude-mapping path="/shop_admin/shop_operation"/>
+            <!--shopmanage page-->
+            <mvc:exclude-mapping path="/shop_admin/get_shop_management"/>
+            <mvc:exclude-mapping path="/shop_admin/shop_management"/>
+
+            <bean class="com.imooc.o2o.interceptor.ShopPermissionInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

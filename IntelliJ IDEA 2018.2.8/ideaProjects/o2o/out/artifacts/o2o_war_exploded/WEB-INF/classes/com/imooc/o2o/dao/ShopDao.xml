@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.imooc.o2o.dao.ShopDao">
+
+    <resultMap id="shop" type="Shop">
+        <id property="shopId" column="shop_id"/>
+        <result property="shopName" column="shop_name"/>
+        <result property="shopDesc" column="shop_desc"/>
+        <result property="shopAddr" column="shop_addr"/>
+        <result property="phone" column="phone"/>
+        <result property="shopImg" column="shop_img"/>
+        <result property="priority" column="priority"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastEditTime" column="last_edit_time"/>
+        <result property="enableStatus" column="enable_status"/>
+        <result property="advice" column="advice"/>
+        <association property="area" column="area_id" javaType="Area">
+            <id property="areaId" column="area_id"/>
+            <result property="areaName" column="area_name"/>
+        </association>
+        <association property="user" column="user_id" javaType="User">
+            <id property="userId" column="user_id"/>
+            <result property="userName" column="user_name"/>
+        </association>
+        <association property="shopCategory" column="shop_category_id" javaType="ShopCategory">
+            <id property="shopCategoryId" column="shop_category_id"/>
+            <result property="shopCategoryName" column="shop_category_name"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertShop" parameterType="Shop" useGeneratedKeys="true" keyProperty="shopId">
+        insert into shop values
+        (default,#{user.userId},#{area.areaId},#{shopCategory.shopCategoryId},
+        #{shopName},#{shopDesc},#{shopAddr},#{phone},#{shopImg},#{priority},
+        #{createTime},#{lastEditTime},#{enableStatus},#{advice})
+    </insert>
+    
+    <update id="updateShop" parameterType="Shop">
+        update shop
+        <set>
+            <if test="user != null">user_id=#{user.userId},</if>
+            <if test="area != null">area_id=#{area.areaId},</if>
+            <if test="shopCategory != null">shop_category_id=#{shopCategory.shopCategoryId},</if>
+            <if test="shopName != null">shop_name=#{shopName},</if>
+            <if test="shopDesc">shop_desc=#{shopDesc},</if>
+            <if test="shopAddr">shop_addr=#{shopAddr},</if>
+            <if test="phone">phone=#{phone},</if>
+            <if test="shopImg">shop_img=#{shopImg},</if>
+            <if test="priority">priority=#{priority},</if>
+            <if test="createTime">create_time=#{createTime},</if>
+            <if test="lastEditTime">last_edit_time=#{lastEditTime},</if>
+            <if test="enableStatus">enable_status=#{enableStatus},</if>
+            <if test="advice">advice=#{advice},</if>
+        </set>
+        where shop_id = #{shopId}
+    </update>
+
+    <select id="selectByShopId" parameterType="Long" resultMap="shop">
+        select s.*,a.area_id,a.area_name,sc.shop_category_id,sc.shop_category_name
+        from shop as s
+        join area as a
+        join shop_category as sc
+        on s.area_id = a.area_id
+        and s.shop_category_id = sc.shop_category_id
+        where s.shop_id = #{value}
+    </select>
+
+    <select id="selectShopList" resultMap="shop">
+        select s.*,a.area_id,a.area_name,sc.shop_category_id,sc.shop_category_name
+        from shop as s
+        join area as a
+        join shop_category as sc
+        on s.area_id = a.area_id
+        and s.shop_category_id = sc.shop_category_id
+        <where>
+            <if test="shop.shopCategory != null and shop.shopCategory.shopCategoryId != null">
+                and s.shop_category_id = #{shop.shopCategory.shopCategoryId}
+            </if>
+            <if test="shop.shopCategory != null
+                  and shop.shopCategory.parent != null
+                  and shop.shopCategory.parent.shopCategoryId != null">
+                and s.shop_category_id in
+                (select shop_category_id from shop_category where parent_id = #{shop.shopCategory.parent.shopCategoryId})
+            </if>
+            <if test="shop.area != null and shop.area.areaId != null">
+                and s.area_id = #{shop.area.areaId}
+            </if>
+            <if test="shop.shopName != null">
+                and s.shop_name like '%${shop.shopName}%'
+            </if>
+            <if test="shop.enableStatus != null">
+                and s.enable_status = #{shop.enableStatus}
+            </if>
+            <if test="shop.user != null and shop.user.userId != null">
+                and s.user_id = #{shop.user.userId}
+            </if>
+        </where>
+        order by s.priority desc
+        limit #{rowIndex},#{pageSize};
+    </select>
+
+    <select id="selectShopListCount" parameterType="Shop" resultType="Integer">
+        select count(*)
+        from shop as s
+        join area as a
+        join shop_category as sc
+        on s.area_id = a.area_id
+        and s.shop_category_id = sc.shop_category_id
+        <where>
+            <if test="shop.shopCategory != null and shop.shopCategory.shopCategoryId != null">
+                and s.shop_category_id = #{shop.shopCategory.shopCategoryId}
+            </if>
+            <if test="shop.shopCategory != null
+                  and shop.shopCategory.parent != null
+                  and shop.shopCategory.parent.shopCategoryId != null">
+                and s.shop_category_id in
+                (select shop_category_id from shop_category where parent_id = #{shop.shopCategory.parent.shopCategoryId})
+            </if>
+            <if test="shop.area != null and shop.area.areaId != null">
+                and s.area_id = #{shop.area.areaId}
+            </if>
+            <if test="shop.shopName != null">
+                and s.shop_name like '%${shop.shopName}%'
+            </if>
+            <if test="shop.enableStatus != null">
+                and s.enable_status = #{shop.enableStatus}
+            </if>
+            <if test="shop.user != null and shop.user.userId != null">
+                and s.user_id = #{shop.user.userId}
+            </if>
+        </where>
+    </select>
+</mapper>

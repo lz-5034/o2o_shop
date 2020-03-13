@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.o2o.dao.AccountDao">
+	<resultMap id="account" type="Account">
+		<id column="account_id" property="accountId" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="create_time" property="createTime" />
+		<result column="last_edit_time" property="lastEditTime" />
+		<association property="user" column="user_id" javaType="User">
+			<id column="user_id" property="userId" />
+			<result column="name" property="name" />
+			<result column="sex" property="sex" />
+			<result column="email" property="email" />
+			<result column="profile_img" property="profileImg" />
+			<result column="user_type" property="userType" />
+			<result column="create_time" property="createTime" />
+			<result column="last_edit_time" property="lastEditTime" />
+			<result column="enable_status" property="enableStatus" />
+		</association>
+	</resultMap>
+	<select id="selectAccountByNameAndPwd" resultMap="account">
+		SELECT a.*,u.*
+		FROM account as a
+		JOIN `user` as u
+		ON a.user_id = u.user_id
+		WHERE
+		a.username = #{username} AND a.password = #{password}
+	</select>
+	<select id="selectAccountByUserId" parameterType="Long" resultMap="account">
+		SELECT a.*,u.*
+		FROM account as a
+		JOIN `user` as u
+		ON a.user_id = u.user_id
+		WHERE
+		a.user_id = #{userId}
+	</select>
+	<insert id="insertAccount" parameterType="Account" useGeneratedKeys="true" keyProperty="accountId">
+		INSERT INTO account
+		VALUES (default,#{user.userId},#{username},#{password},#{createTime},#{lastEditTime})
+	</insert>
+	<update id="updateAccount">
+		update account
+		<set>
+			<if test="newPassword != null">password=#{newPassword},</if>
+			<if test="lastEditTime != null">last_edit_time=#{lastEditTime}</if>
+		</set>
+		where user_id=#{userId}
+		AND username=#{username}
+		AND password=#{password}
+	</update>
+</mapper>
