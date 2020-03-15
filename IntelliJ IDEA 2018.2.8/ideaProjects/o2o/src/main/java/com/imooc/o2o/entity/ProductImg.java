@@ -1,5 +1,7 @@
 package com.imooc.o2o.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  * @date 2020/2/18 11:35:28
  * @description 商品图片详情
  */
+@Data
 public class ProductImg {
     private Long imgId;     //商品图片id
     private String imgAddr; //商品图片地址
@@ -15,7 +18,7 @@ public class ProductImg {
     private Date createTime;    //创建时间
     private Long productId; //关联商品id
 
-    public Long getImgId() {
+    /*public Long getImgId() {
         return imgId;
     }
 
@@ -61,5 +64,5 @@ public class ProductImg {
 
     public void setProductId(Long productId) {
         this.productId = productId;
-    }
+    }*/
 }

@@ -1,5 +1,7 @@
 package com.imooc.o2o.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  * @date 2020/2/17 21:39:47
  * @description 区域信息
  */
+@Data
 public class Area {
     private Integer areaId;     //区域id
     private String areaName;    //区域名称
@@ -14,7 +17,7 @@ public class Area {
     private Date createTime;    //创建时间
     private Date lastEditTime;  //最后修改时间
 
-    public Integer getAreaId() {
+    /*public Integer getAreaId() {
         return areaId;
     }
 
@@ -63,5 +66,5 @@ public class Area {
                 ", createTime=" + createTime +
                 ", lastEditTime=" + lastEditTime +
                 '}';
-    }
+    }*/
 }

@@ -102,6 +102,12 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.4</version>
         </dependency>
+        <!--简化代码开发的插件-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+        </dependency>
     </dependencies>
 
 </project>

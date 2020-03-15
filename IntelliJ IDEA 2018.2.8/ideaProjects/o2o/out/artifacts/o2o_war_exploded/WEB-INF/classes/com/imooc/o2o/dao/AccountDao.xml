@@ -21,13 +21,15 @@
 			<result column="enable_status" property="enableStatus" />
 		</association>
 	</resultMap>
-	<select id="selectAccountByNameAndPwd" resultMap="account">
+	<select id="selectAccountByNameAndPwdAndType" resultMap="account">
 		SELECT a.*,u.*
 		FROM account as a
 		JOIN `user` as u
 		ON a.user_id = u.user_id
 		WHERE
-		a.username = #{username} AND a.password = #{password}
+		a.username = #{username}
+		AND a.password = #{password}
+		AND u.user_type = #{userType}
 	</select>
 	<select id="selectAccountByUserId" parameterType="Long" resultMap="account">
 		SELECT a.*,u.*

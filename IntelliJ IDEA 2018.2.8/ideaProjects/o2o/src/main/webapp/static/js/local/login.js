@@ -36,6 +36,7 @@ $(function() {
 			data : {
 				userName : userName,
 				password : password,
+				userType : usertype,
 				verifyCodeActual : verifyCodeActual,
 				//是否需要做验证码校验
 				needVerify : needVerify

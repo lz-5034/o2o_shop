@@ -1,5 +1,7 @@
 package com.imooc.o2o.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  * @date 2020/2/18 09:57:17
  * @description 店铺分类
  */
+@Data
 public class ShopCategory {
     private Long shopCategoryId;    //店铺分类id
     private String shopCategoryName; //分类名称
@@ -17,7 +20,7 @@ public class ShopCategory {
     private Date lastEditTime;  //最后修改时间
     private ShopCategory parent;//关联的父类店铺分类
 
-    public Long getShopCategoryId() {
+    /*public Long getShopCategoryId() {
         return shopCategoryId;
     }
 
@@ -79,5 +82,5 @@ public class ShopCategory {
 
     public void setParent(ShopCategory parent) {
         this.parent = parent;
-    }
+    }*/
 }

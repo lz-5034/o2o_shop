@@ -59,7 +59,7 @@ public class AccountOperationController {
 		if (user == null || "".equals(user)) {
 			// 非空判断，要求帐号密码以及当前的用户session非空
 			if (userName != null && password != null) {
-				Account Account = AccountService.getAccountByUsernameAndPwd(userName,password);
+				Account Account = AccountService.checkAccount(userName, password, status);
 				if(Account == null){
 					// 创建Account对象并赋值
 					Account = new Account();
@@ -169,7 +169,7 @@ public class AccountOperationController {
 	@RequestMapping(value = "/logincheck", method = RequestMethod.POST)
 	@ResponseBody
 	private Map<String, Object> logincheck(HttpServletRequest request) {
-		Map<String, Object> modelMap = new HashMap<String, Object>();
+		Map<String, Object> modelMap = new HashMap<>();
 		// 获取是否需要进行验证码校验的标识符
 		boolean needVerify = HttpServletRequestUtil.getBoolean(request, "needVerify");
 		if (needVerify && !VerifyCodeUtil.checkVerifyCode(request)) {
@@ -181,10 +181,12 @@ public class AccountOperationController {
 		String userName = HttpServletRequestUtil.getString(request, "userName");
 		// 获取输入的密码
 		String password = HttpServletRequestUtil.getString(request, "password");
+		// 获取用户的身份状态
+		int userType = HttpServletRequestUtil.getInt(request, "userType");
 		// 非空校验
-		if (userName != null && password != null) {
+		if (userName != null && password != null && userType > 0) {
 			// 传入帐号和密码去获取平台帐号信息
-			Account Account = AccountService.getAccountByUsernameAndPwd(userName, password);
+			Account Account = AccountService.checkAccount(userName, password, userType);
 			if (Account != null) {
 				// 若能取到帐号信息则登录成功
 				modelMap.put("success", true);

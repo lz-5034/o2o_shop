@@ -1,5 +1,7 @@
 package com.imooc.o2o.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
  * @date 2020/2/18 12:07:57
  * @description 商品
  */
+@Data
 public class Product {
     private Long productId;     //商品id
     private String productName; //商品名称
@@ -23,7 +26,7 @@ public class Product {
     private ProductCategory productCategory;    //商品分类
     private Shop shop;  //关联店铺
 
-    public Long getProductId() {
+    /*public Long getProductId() {
         return productId;
     }
 
@@ -125,5 +128,5 @@ public class Product {
 
     public void setShop(Shop shop) {
         this.shop = shop;
-    }
+    }*/
 }

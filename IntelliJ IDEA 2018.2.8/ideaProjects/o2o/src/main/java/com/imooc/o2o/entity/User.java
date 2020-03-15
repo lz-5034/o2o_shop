@@ -1,5 +1,7 @@
 package com.imooc.o2o.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  * @date 2020/2/17 22:02:36
  * @description 用户信息
  */
+@Data
 public class User {
     private Long userId;        //用户id
     private String name;        //用户姓名
@@ -18,7 +21,7 @@ public class User {
     private Date createTime;    //创建时间
     private Date lastEditTime;  //最后修改时间
 
-    public Long getUserId() {
+    /*public Long getUserId() {
         return userId;
     }
 
@@ -88,5 +91,5 @@ public class User {
 
     public void setLastEditTime(Date lastEditTime) {
         this.lastEditTime = lastEditTime;
-    }
+    }*/
 }

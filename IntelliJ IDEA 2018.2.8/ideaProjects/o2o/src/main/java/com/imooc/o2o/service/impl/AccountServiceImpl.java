@@ -19,8 +19,8 @@ public class AccountServiceImpl implements AccountService {
 	private AccountDao AccountDao;
 
 	@Override
-	public Account getAccountByUsernameAndPwd(String username, String password) {
-		return AccountDao.selectAccountByNameAndPwd(username, password);
+	public Account checkAccount(String username, String password, int userType) {
+		return AccountDao.selectAccountByNameAndPwdAndType(username, password, userType);
 	}
 
 	@Override

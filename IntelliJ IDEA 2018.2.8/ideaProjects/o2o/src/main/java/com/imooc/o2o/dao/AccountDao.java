@@ -15,7 +15,9 @@ import java.util.Date;
 public interface AccountDao {
 
 	//通过帐号和密码查询对应信息，登录用
-	Account selectAccountByNameAndPwd(@Param("username") String username, @Param("password") String password);
+	Account selectAccountByNameAndPwdAndType(@Param("username") String username,
+											 @Param("password") String password,
+											 @Param("userType") int userType);
 
 	//通过用户Id查询对应Account
 	Account selectAccountByUserId(@Param("userId") long userId);

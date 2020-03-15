@@ -1,5 +1,7 @@
 package com.imooc.o2o.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  * @date 2020/2/17 23:43:12
  * @description 首页头条
  */
+@Data
 public class HeadLine {
     private Long lineId;         //头条id
     private String lineName;     //头条名称
@@ -17,7 +20,7 @@ public class HeadLine {
     private Date createTime;    //创建时间
     private Date lastEditTime;  //最后修改时间
 
-    public Long getLineId() {
+    /*public Long getLineId() {
         return lineId;
     }
 
@@ -79,5 +82,5 @@ public class HeadLine {
 
     public void setLastEditTime(Date lastEditTime) {
         this.lastEditTime = lastEditTime;
-    }
+    }*/
 }

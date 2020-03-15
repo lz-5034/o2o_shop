@@ -1,5 +1,7 @@
 package com.imooc.o2o.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  * @date 2020/2/18 11:18:32
  * @description 商品类别
  */
+@Data
 public class ProductCategory {
     private Long productCategoryId; //商品类别id
     private String productCategoryName; //商品分类名称
@@ -14,7 +17,7 @@ public class ProductCategory {
     private Date createTime;        //创建时间
     private Long shopId;            //店铺id
 
-    public Long getProductCategoryId() {
+    /*public Long getProductCategoryId() {
         return productCategoryId;
     }
 
@@ -52,5 +55,5 @@ public class ProductCategory {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
+    }*/
 }

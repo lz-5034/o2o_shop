@@ -6,7 +6,7 @@ import com.imooc.o2o.exceptions.AccountOperationException;
 
 public interface AccountService {
 	//通过帐号和密码获取平台帐号信息
-	Account getAccountByUsernameAndPwd(String userName, String password);
+	Account checkAccount(String userName, String password, int userType);
 
 	//通过userId获取平台帐号信息
 	Account getAccountByUserId(long userId);
